@@ -1,7 +1,7 @@
 <template>
-  <main>
+  <div>
     <nuxt class="mb-5"/>
-  </main>
+  </div>
 </template>
 
 <script>
