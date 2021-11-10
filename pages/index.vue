@@ -1,5 +1,5 @@
 <template>
-  <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
+  <div class="overflow-x-auto">
     <div class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-white shadow-lg px-12">
       <div class="flex justify-between">
         <div class="inline-flex border rounded w-7/12 px-2 lg:px-6 h-12 bg-transparent">
@@ -110,7 +110,7 @@ export default {
     }
   },
   watch:{
-    $route (to, from){
+    $route (to){
       let { page } = to.query
       this.page = parseInt(page, 10)
       this.getComments()
@@ -124,13 +124,8 @@ export default {
   },
   methods: {
     onChange(bool) {
-      if(!bool){
-        this.page = parseInt(this.page, 10)+1
-      }else{
-        this.page = parseInt(this.page, 10)-1
-      }
-      this.$router.push({ query: { page: this.page } });
-      //this.getComments()
+      this.page = !bool ? parseInt(this.page, 10)+1 : parseInt(this.page, 10)-1
+      this.$router.push({ query: { page: this.page } })
     },
     async getComments(){
       this.comments = await this.$axios.$get(`/comments?page=${this.page}&limit=${this.limit}`)
