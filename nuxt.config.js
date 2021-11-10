@@ -1,10 +1,6 @@
 export default {
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
-
-  // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
-
+  ssr: true,
+  mode: "universal",
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'app_sam',
@@ -25,6 +21,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/api-context.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -46,7 +43,7 @@ export default {
   ],
   axios: {
     // proxy: true
-    baseURL: 'https://jsonplaceholder.typicode.com',
+    baseURL: 'http://localhost:3000/api/v1',
   },
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -54,7 +51,19 @@ export default {
       lang: 'en'
     }
   },
-
+  serverMiddleware: [
+    { path: "/api", handler: require("body-parser").json() },
+    {
+      path: "/api",
+      handler: (req, res, next) => {
+        const url = require("url");
+        req.query = url.parse(req.url, true).query;
+        req.params = { ...req.query, ...req.body };
+        next();
+      }
+    },
+    { path: "/api", handler: "~/serverMiddleware/api-server.js" }
+  ],
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }

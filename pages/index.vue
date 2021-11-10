@@ -119,7 +119,7 @@ export default {
   async asyncData({ route, $axios }) {
     const page = parseInt(route.query.page, 10) || 1
     const limit = parseInt(route.query.limit, 10) || 10
-    const comments = await $axios.$get(`/comments?_page=${page}&_limit=${limit}`)
+    const comments = await $axios.$get(`/comments?page=${page}&limit=${limit}`)
     return { comments }
   },
   methods: {
@@ -133,7 +133,7 @@ export default {
       //this.getComments()
     },
     async getComments(){
-      this.comments = await this.$axios.$get(`/comments?_page=${this.page}&_limit=${this.limit}`)
+      this.comments = await this.$axios.$get(`/comments?page=${this.page}&limit=${this.limit}`)
     }
   }
 }

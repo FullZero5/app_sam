@@ -19,7 +19,7 @@
   export default {
     name: 'ItemComment',
     async asyncData({ params, $axios  }) {
-      const comment = await $axios.$get(`https://jsonplaceholder.typicode.com/comments/${parseInt(params.slug)|| 1}`)
+      const comment = await $axios.$get(`comment?id=${parseInt(params.slug)|| 1}`)
       return { comment }
     }
   }
